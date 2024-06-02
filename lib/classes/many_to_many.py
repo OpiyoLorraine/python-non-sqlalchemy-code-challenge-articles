@@ -1,9 +1,11 @@
 class Author:
+    
     def __init__(self, name):
         if not isinstance(name, str) or len(name) == 0:
             raise ValueError("Invalid name")
         self._name = name
         self._articles = []
+        self._magazines = set()
 
     @property
     def name(self):
@@ -13,17 +15,10 @@ class Author:
         return self._articles
 
     def magazines(self):
-        return list(set(article.magazine for article in self._articles))
+        return list({article.magazine for article in self._articles})
 
     def add_article(self, magazine, title):
-        if not isinstance(magazine, Magazine):
-            raise ValueError("Invalid magazine")
-        # Check if the article already exists based on title and magazine
-        existing_articles = [article for article in self._articles if article.title == title and article.magazine == magazine]
-        if existing_articles:
-            return existing_articles[0]
         article = Article(self, magazine, title)
-        self._articles.append(article)
         return article
 
 
